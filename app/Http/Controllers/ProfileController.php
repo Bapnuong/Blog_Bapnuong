@@ -14,19 +14,10 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request)
+    public function edit(Request $request): View
     {
-        $posts = auth()->user()
-            ->posts()
-            ->latest()
-            ->get();
-
         return view('profile.edit', [
-
             'user' => $request->user(),
-
-            'posts' => $posts
-
         ]);
     }
 
@@ -67,16 +58,6 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function show($id)
-    {
-        $user = User::findOrFail($id);
-
-        return view(
-            'profile.edit',
-            compact('user')
-        );
-    }
-
     public function avatar(Request $request)
     {
         $request->validate([
@@ -101,7 +82,7 @@ class ProfileController extends Controller
             ->file('avatar')
             ->store('avatars', 'public');
 
-        // save database
+        // save db
 
         $user->update([
 
@@ -110,12 +91,18 @@ class ProfileController extends Controller
         ]);
 
         return back()->with(
-
             'success',
-
-            'Avatar updated successfully!'
-
+            'Avatar updated!'
         );
     }
 
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view(
+            'profile.edit',
+            compact('user')
+        );
+    }
 }
