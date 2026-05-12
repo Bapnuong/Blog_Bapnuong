@@ -334,28 +334,6 @@ body{
         BLOG.
     </div>
 
-    <div class="nav-buttons">
-
-        @auth
-
-            <a href="/dashboard" class="btn register-btn">
-                Dashboard
-            </a>
-
-        @else
-
-            <a href="{{ route('login') }}" class="btn login-btn">
-                Login
-            </a>
-
-            <a href="{{ route('register') }}" class="btn register-btn">
-                Register
-            </a>
-
-        @endauth
-
-    </div>
-
 </nav>
 
 <section class="hero">
@@ -376,7 +354,13 @@ body{
         </p>
 
         <div class="hero-buttons">
+             @auth
 
+                <a href="/dashboard" class="btn register-btn">
+                    Dashboard
+                </a>
+
+            @else
             <a href="{{ route('register') }}" class="start-btn">
                 Get Started
             </a>
@@ -384,6 +368,7 @@ body{
             <a href="{{ route('login') }}" class="learn-btn">
                 Login
             </a>
+            @endauth
 
         </div>
 
