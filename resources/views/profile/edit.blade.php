@@ -1,128 +1,169 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-gradient-to-br from-slate-100 via-orange-50 to-white py-10">
+<div class="min-h-screen bg-gradient-to-br from-slate-100 via-orange-50 to-white py-10">
 
-        <div class="max-w-6xl mx-auto px-4">
+    <div class="max-w-5xl mx-auto px-4">
 
-            {{-- PROFILE HERO --}}
+        {{-- PROFILE HERO --}}
 
-            <div
-                class="bg-white/80 backdrop-blur-xl rounded-[35px] shadow-2xl p-10 mb-10 border border-white/50"
-            >
+        <div
+            class="
+                bg-white/80
+                backdrop-blur-xl
+                rounded-[35px]
+                shadow-2xl
+                p-10
+                mb-10
+                border border-white/50
+            "
+        >
 
-                <div
-                    class="flex flex-col md:flex-row items-center md:items-start gap-10"
-                >
+            <div class="flex items-center gap-8">
 
-                    {{-- AVATAR --}}
+                {{-- AVATAR --}}
 
-                    <div class="relative">
+                @if(auth()->user()->avatar)
 
-                        <img
-                            src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}"
-                            class="w-40 h-40 rounded-full border-4 border-orange-400 shadow-2xl"
-                        >
+                    <img
+                        src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                        class="
+                            w-36
+                            h-36
+                            rounded-full
+                            object-cover
+                            border-4
+                            border-orange-400
+                            shadow-xl
+                        "
+                    >
+
+                @else
+
+                    <img
+                        src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}"
+                        class="
+                            w-36
+                            h-36
+                            rounded-full
+                            border-4
+                            border-orange-400
+                            shadow-xl
+                        "
+                    >
+
+                @endif
+
+                {{-- INFO --}}
+
+                <div>
+
+                    <h1
+                        class="
+                            text-5xl
+                            font-black
+                            text-gray-800
+                            mb-3
+                        "
+                    >
+
+                        {{ auth()->user()->name }}
+
+                    </h1>
+
+                    <p
+                        class="
+                            text-gray-500
+                            text-xl
+                            mb-6
+                        "
+                    >
+
+                        {{ auth()->user()->email }}
+
+                    </p>
+
+                    {{-- STATS --}}
+
+                    <div class="flex gap-5">
 
                         <div
-                            class="absolute bottom-2 right-2 bg-green-500 w-6 h-6 rounded-full border-4 border-white"
-                        ></div>
-
-                    </div>
-
-                    {{-- INFO --}}
-
-                    <div class="flex-1">
-
-                        <h1
-                            class="text-5xl md:text-6xl font-black text-gray-800"
+                            class="
+                                bg-orange-100
+                                px-6
+                                py-4
+                                rounded-2xl
+                            "
                         >
 
-                            {{ Auth::user()->name }}
+                            <p class="text-gray-500">
+                                Posts
+                            </p>
 
-                        </h1>
+                            <h2
+                                class="
+                                    text-3xl
+                                    font-black
+                                    text-orange-500
+                                "
+                            >
 
-                        <p
-                            class="text-gray-500 mt-4 text-xl"
-                        >
+                                {{ auth()->user()->posts->count() }}
 
-                            {{ Auth::user()->email }}
+                            </h2>
 
-                        </p>
-
-                        <p
-                            class="text-gray-600 mt-5 text-lg leading-relaxed max-w-2xl"
-                        >
-
-                            Welcome to your personal profile dashboard.
-                            Manage your account, security and personal information here.
-
-                        </p>
-
-                        {{-- STATS --}}
+                        </div>
 
                         <div
-                            class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8"
+                            class="
+                                bg-pink-100
+                                px-6
+                                py-4
+                                rounded-2xl
+                            "
                         >
 
-                            {{-- POSTS --}}
+                            <p class="text-gray-500">
+                                Likes
+                            </p>
 
-                            <div
-                                class="bg-gradient-to-r from-orange-500 to-pink-500 text-white p-6 rounded-3xl shadow-xl hover:scale-105 transition"
+                            <h2
+                                class="
+                                    text-3xl
+                                    font-black
+                                    text-pink-500
+                                "
                             >
 
-                                <p class="text-lg opacity-90">
-                                    Posts
-                                </p>
+                                {{ auth()->user()->likes->count() }}
 
-                                <h2
-                                    class="text-5xl font-black mt-3"
-                                >
+                            </h2>
 
-                                    {{ Auth::user()->posts->count() }}
+                        </div>
 
-                                </h2>
+                        <div
+                            class="
+                                bg-blue-100
+                                px-6
+                                py-4
+                                rounded-2xl
+                            "
+                        >
 
-                            </div>
+                            <p class="text-gray-500">
+                                Comments
+                            </p>
 
-                            {{-- LIKES --}}
-
-                            <div
-                                class="bg-gradient-to-r from-pink-500 to-red-500 text-white p-6 rounded-3xl shadow-xl hover:scale-105 transition"
+                            <h2
+                                class="
+                                    text-3xl
+                                    font-black
+                                    text-blue-500
+                                "
                             >
 
-                                <p class="text-lg opacity-90">
-                                    Likes
-                                </p>
+                                {{ auth()->user()->comments->count() }}
 
-                                <h2
-                                    class="text-5xl font-black mt-3"
-                                >
-
-                                    {{ Auth::user()->likes->count() }}
-
-                                </h2>
-
-                            </div>
-
-                            {{-- COMMENTS --}}
-
-                            <div
-                                class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-6 rounded-3xl shadow-xl hover:scale-105 transition"
-                            >
-
-                                <p class="text-lg opacity-90">
-                                    Comments
-                                </p>
-
-                                <h2
-                                    class="text-5xl font-black mt-3"
-                                >
-
-                                    {{ Auth::user()->comments->count() }}
-
-                                </h2>
-
-                            </div>
+                            </h2>
 
                         </div>
 
@@ -132,110 +173,150 @@
 
             </div>
 
-            {{-- SETTINGS --}}
+        </div>
 
-            <div class="space-y-10">
+        {{-- UPLOAD AVATAR --}}
 
-                {{-- UPDATE PROFILE --}}
+        <div
+            class="
+                bg-white/80
+                backdrop-blur-xl
+                rounded-[35px]
+                shadow-2xl
+                p-8
+                mb-10
+                border border-white/50
+            "
+        >
 
-                <div
-                    class="bg-white/80 backdrop-blur-xl rounded-[35px] shadow-2xl p-10 border border-white/50"
+            <h2
+                class="
+                    text-3xl
+                    font-black
+                    text-gray-800
+                    mb-6
+                "
+            >
+
+                Upload Avatar 📸
+
+            </h2>
+
+            <form
+                action="/profile/avatar"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                @csrf
+
+                <input
+                    type="file"
+                    name="avatar"
+                    class="
+                        w-full
+                        bg-gray-100
+                        rounded-2xl
+                        p-5
+                        text-lg
+                        border-0
+                        mb-5
+
+                        file:mr-4
+                        file:py-3
+                        file:px-6
+                        file:rounded-2xl
+                        file:border-0
+                        file:text-sm
+                        file:font-bold
+                        file:bg-orange-500
+                        file:text-white
+                    "
                 >
 
-                    <div class="mb-8">
-
-                        <h2
-                            class="text-4xl font-black text-gray-800"
-                        >
-
-                            Profile Information
-
-                        </h2>
-
-                        <p
-                            class="text-gray-500 mt-2 text-lg"
-                        >
-
-                            Update your personal information and email address.
-
-                        </p>
-
-                    </div>
-
-                    @include(
-                        'profile.partials.update-profile-information-form'
-                    )
-
-                </div>
-
-                {{-- PASSWORD --}}
-
-                <div
-                    class="bg-white/80 backdrop-blur-xl rounded-[35px] shadow-2xl p-10 border border-white/50"
+                <button
+                    class="
+                        bg-gradient-to-r
+                        from-orange-500
+                        to-pink-500
+                        text-white
+                        px-8
+                        py-4
+                        rounded-2xl
+                        shadow-xl
+                        font-bold
+                    "
                 >
 
-                    <div class="mb-8">
+                    Upload Avatar
 
-                        <h2
-                            class="text-4xl font-black text-gray-800"
-                        >
+                </button>
 
-                            Security
+            </form>
 
-                        </h2>
+        </div>
 
-                        <p
-                            class="text-gray-500 mt-2 text-lg"
-                        >
+        {{-- PROFILE INFO --}}
 
-                            Change your password to keep your account secure.
+        <div
+            class="
+                bg-white/80
+                backdrop-blur-xl
+                rounded-[35px]
+                shadow-2xl
+                p-8
+                mb-10
+                border border-white/50
+            "
+        >
 
-                        </p>
+            @include(
+                'profile.partials.update-profile-information-form'
+            )
 
-                    </div>
+        </div>
 
-                    @include(
-                        'profile.partials.update-password-form'
-                    )
+        {{-- PASSWORD --}}
 
-                </div>
+        <div
+            class="
+                bg-white/80
+                backdrop-blur-xl
+                rounded-[35px]
+                shadow-2xl
+                p-8
+                mb-10
+                border border-white/50
+            "
+        >
 
-                {{-- DELETE ACCOUNT --}}
+            @include(
+                'profile.partials.update-password-form'
+            )
 
-                <div
-                    class="bg-white/80 backdrop-blur-xl rounded-[35px] shadow-2xl p-10 border border-red-100"
-                >
+        </div>
 
-                    <div class="mb-8">
+        {{-- DELETE ACCOUNT --}}
 
-                        <h2
-                            class="text-4xl font-black text-red-500"
-                        >
+        <div
+            class="
+                bg-white/80
+                backdrop-blur-xl
+                rounded-[35px]
+                shadow-2xl
+                p-8
+                border border-white/50
+            "
+        >
 
-                            Danger Zone
-
-                        </h2>
-
-                        <p
-                            class="text-gray-500 mt-2 text-lg"
-                        >
-
-                            Permanently delete your account and all data.
-
-                        </p>
-
-                    </div>
-
-                    @include(
-                        'profile.partials.delete-user-form'
-                    )
-
-                </div>
-
-            </div>
+            @include(
+                'profile.partials.delete-user-form'
+            )
 
         </div>
 
     </div>
+
+</div>
 
 </x-app-layout>

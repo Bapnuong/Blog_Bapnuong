@@ -68,4 +68,11 @@ Route::middleware('auth')->group(function () {
     );
 });
 
+
+Route::post(
+    '/profile/avatar',
+    [ProfileController::class, 'avatar']
+)->middleware('auth');
+
+
 require __DIR__.'/auth.php';

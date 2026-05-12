@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,10 +14,19 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit(Request $request)
     {
+        $posts = auth()->user()
+            ->posts()
+            ->latest()
+            ->get();
+
         return view('profile.edit', [
+
             'user' => $request->user(),
+
+            'posts' => $posts
+
         ]);
     }
 
@@ -67,4 +76,46 @@ class ProfileController extends Controller
             compact('user')
         );
     }
+
+    public function avatar(Request $request)
+    {
+        $request->validate([
+
+            'avatar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+
+        ]);
+
+        $user = auth()->user();
+
+        // delete old avatar
+
+        if($user->avatar)
+        {
+            Storage::disk('public')
+                ->delete($user->avatar);
+        }
+
+        // upload new avatar
+
+        $avatarPath = $request
+            ->file('avatar')
+            ->store('avatars', 'public');
+
+        // save database
+
+        $user->update([
+
+            'avatar' => $avatarPath
+
+        ]);
+
+        return back()->with(
+
+            'success',
+
+            'Avatar updated successfully!'
+
+        );
+    }
+
 }
