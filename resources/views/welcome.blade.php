@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Blog System</title>
+    <title>Blog.</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -348,8 +348,7 @@ body{
         <p>
 
             Create posts, connect with people,
-            share your thoughts and build your own
-            modern blogging platform using Laravel.
+            share your thoughts and ideas, and be part of a vibrant community of bloggers.
 
         </p>
 
