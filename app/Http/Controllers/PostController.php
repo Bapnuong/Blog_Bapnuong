@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -20,7 +21,9 @@ class PostController extends Controller
             'user',
             'comments.user',
             'likes'
-        ])->latest()->get();
+        ])
+        ->latest()
+        ->get();
 
         return view(
             'dashboard',
@@ -36,16 +39,38 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
 
             'title' => 'required|max:255',
 
-            'content' => 'required'
+            'content' => 'required',
+
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+
         ]);
 
-        $data['user_id'] = Auth::id();
+        $imagePath = null;
 
-        Post::create($data);
+        // upload image
+
+        if($request->hasFile('image'))
+        {
+            $imagePath = $request
+                ->file('image')
+                ->store('posts', 'public');
+        }
+
+        Post::create([
+
+            'title' => $request->title,
+
+            'content' => $request->content,
+
+            'image' => $imagePath,
+
+            'user_id' => Auth::id()
+
+        ]);
 
         return back()->with(
             'success',
@@ -67,6 +92,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         // security
+
         if (
             Auth::id() != $post->user_id
             &&
@@ -75,14 +101,46 @@ class PostController extends Controller
             abort(403);
         }
 
-        $data = $request->validate([
+        $request->validate([
 
             'title' => 'required|max:255',
 
-            'content' => 'required'
+            'content' => 'required',
+
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+
         ]);
 
-        $post->update($data);
+        $imagePath = $post->image;
+
+        // update image
+
+        if($request->hasFile('image'))
+        {
+            // delete old image
+
+            if($post->image)
+            {
+                Storage::disk('public')
+                    ->delete($post->image);
+            }
+
+            // upload new image
+
+            $imagePath = $request
+                ->file('image')
+                ->store('posts', 'public');
+        }
+
+        $post->update([
+
+            'title' => $request->title,
+
+            'content' => $request->content,
+
+            'image' => $imagePath
+
+        ]);
 
         return back()->with(
             'success',
@@ -100,17 +158,20 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        // security
         if(
-
             auth()->id() != $post->user_id
-
             &&
-
             auth()->user()->role != 'admin'
-
         ){
             abort(403);
+        }
+
+        // delete image
+
+        if($post->image)
+        {
+            Storage::disk('public')
+                ->delete($post->image);
         }
 
         $post->delete();
