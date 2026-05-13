@@ -42,4 +42,5 @@ RUN php artisan view:cache
 EXPOSE 10000
 
 # Start server
+RUN php artisan storage:link || true
 CMD ["sh", "-c", "php artisan config:clear && php artisan optimize:clear && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"]
