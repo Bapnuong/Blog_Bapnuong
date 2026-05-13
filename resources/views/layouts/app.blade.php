@@ -32,5 +32,37 @@
                 {{ $slot }}
             </main>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @if(session('success'))
+
+        <script>
+
+        Swal.fire({
+
+            toast: true,
+
+            position: 'top-end',
+
+            icon: 'success',
+
+            title: '{{ session('success') }}',
+
+            showConfirmButton: false,
+
+            timer: 2500,
+
+            timerProgressBar: true,
+
+            background: '#ffffff',
+
+            color: '#1f2937',
+
+            iconColor: '#f97316'
+
+        });
+
+        </script>
+
+        @endif
     </body>
 </html>

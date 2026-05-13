@@ -15,19 +15,49 @@ class PostController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->search;
+
         $posts = Post::with([
+
             'user',
             'comments.user',
             'likes'
+
         ])
+        ->when($search, function($query) use ($search){
+
+            $query->where(function($q) use ($search){
+
+                $q->where(
+
+                    'title',
+                    'LIKE',
+                    "%{$search}%"
+
+                )
+                ->orWhere(
+
+                    'content',
+                    'LIKE',
+                    "%{$search}%"
+
+                );
+
+            });
+
+        })
         ->latest()
-        ->get();
+        ->paginate(5)
+        ->withQueryString();
 
         return view(
+
             'dashboard',
+
             compact('posts')
+
         );
     }
 

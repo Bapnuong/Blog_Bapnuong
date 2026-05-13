@@ -28,6 +28,66 @@
 
         </div>
 
+
+        {{-- SEARCH --}}
+
+        <form
+            method="GET"
+            action="/dashboard"
+            class="mb-10"
+        >
+
+            <div class="relative">
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Search posts..."
+                    class="
+                        w-full
+                        bg-white/80
+                        backdrop-blur-xl
+                        rounded-3xl
+                        p-6
+                        pl-16
+                        text-lg
+                        border-0
+                        shadow-2xl
+                        focus:ring-2
+                        focus:ring-orange-400
+                    "
+                >
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="
+                        w-7
+                        h-7
+                        absolute
+                        left-5
+                        top-6
+                        text-gray-400
+                    "
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+
+                </svg>
+
+            </div>
+
+        </form>
+
+
         {{-- CREATE POST --}}
 
         <div
@@ -300,6 +360,7 @@
 
                 </p>
 
+
                 {{-- LIKE --}}
 
                 <form
@@ -359,28 +420,220 @@
                         "
                     >
 
-                        <p
+                        <div
                             class="
-                                font-bold
-                                text-orange-500
-                                mb-2
+                                flex
+                                justify-between
+                                items-start
+                                gap-4
                             "
                         >
 
-                            {{ $comment->user->name }}
+                            {{-- LEFT --}}
 
-                        </p>
+                            <div class="flex-1">
 
-                        <p
-                            class="
-                                text-gray-700
-                                text-lg
-                            "
-                        >
+                                {{-- USER --}}
 
-                            {{ $comment->content }}
+                                <div
+                                    class="
+                                        flex
+                                        items-center
+                                        gap-3
+                                        mb-3
+                                    "
+                                >
 
-                        </p>
+                                    @if($comment->user->avatar)
+
+                                        <img
+                                            src="{{ asset('storage/' . $comment->user->avatar) }}"
+                                            class="
+                                                w-10
+                                                h-10
+                                                rounded-full
+                                                object-cover
+                                            "
+                                        >
+
+                                    @else
+
+                                        <img
+                                            src="https://ui-avatars.com/api/?name={{ $comment->user->name }}"
+                                            class="
+                                                w-10
+                                                h-10
+                                                rounded-full
+                                            "
+                                        >
+
+                                    @endif
+
+                                    <div>
+
+                                        <p
+                                            class="
+                                                font-bold
+                                                text-orange-500
+                                            "
+                                        >
+
+                                            {{ $comment->user->name }}
+
+                                        </p>
+
+                                        <p
+                                            class="
+                                                text-sm
+                                                text-gray-400
+                                            "
+                                        >
+
+                                            {{ $comment->created_at->diffForHumans() }}
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                {{-- CONTENT --}}
+
+                                <p
+                                    class="
+                                        text-gray-700
+                                        text-lg
+                                    "
+                                >
+
+                                    {{ $comment->content }}
+
+                                </p>
+
+                                {{-- EDIT FORM --}}
+
+                                <div
+                                    id="comment-edit-{{ $comment->id }}"
+                                    class="hidden mt-4"
+                                >
+
+                                    <form
+                                        method="POST"
+                                        action="/comments/{{ $comment->id }}"
+                                    >
+
+                                        @csrf
+                                        @method('PUT')
+
+                                        <textarea
+                                            name="content"
+                                            rows="3"
+                                            class="
+                                                w-full
+                                                bg-white
+                                                rounded-2xl
+                                                p-4
+                                                border
+                                                border-gray-200
+                                            "
+                                        >{{ $comment->content }}</textarea>
+
+                                        <button
+                                            class="
+                                                mt-3
+                                                bg-gradient-to-r
+                                                from-orange-500
+                                                to-pink-500
+                                                text-white
+                                                px-5
+                                                py-2
+                                                rounded-xl
+                                                font-bold
+                                                shadow-lg
+                                            "
+                                        >
+
+                                            Update Comment
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                            {{-- RIGHT ACTIONS --}}
+
+                            @if(
+                                Auth::id() == $comment->user_id
+                                ||
+                                auth()->user()->role == 'admin'
+                            )
+
+                                <div
+                                    class="
+                                        flex
+                                        gap-2
+                                    "
+                                >
+
+                                    {{-- EDIT --}}
+
+                                    <button
+                                        onclick="toggleCommentEdit({{ $comment->id }})"
+                                        class="
+                                            bg-blue-100
+                                            hover:bg-blue-500
+                                            hover:text-white
+                                            text-blue-500
+                                            px-4
+                                            py-2
+                                            rounded-xl
+                                            font-bold
+                                            transition
+                                        "
+                                    >
+
+                                        Edit
+
+                                    </button>
+
+                                    {{-- DELETE --}}
+
+                                    <form
+                                        method="POST"
+                                        action="/comments/{{ $comment->id }}"
+                                    >
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            class="
+                                                bg-red-100
+                                                hover:bg-red-500
+                                                hover:text-white
+                                                text-red-500
+                                                px-4
+                                                py-2
+                                                rounded-xl
+                                                font-bold
+                                                transition
+                                            "
+                                        >
+
+                                            Delete
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            @endif
+
+                        </div>
 
                     </div>
 
@@ -512,6 +765,7 @@
                             "
                         >{{ $post->content }}</textarea>
 
+
                         {{-- BUTTON --}}
 
                         <button
@@ -542,7 +796,13 @@
             </div>
 
         @endforeach
+            {{-- PAGINATION --}}
 
+            <div class="mt-10">
+
+                {{ $posts->links() }}
+
+            </div>
     </div>
 
 </div>
@@ -558,7 +818,15 @@ function toggleEdit(id)
         .classList
         .toggle('hidden');
 }
-
+function toggleCommentEdit(id)
+{
+    document
+        .getElementById(
+            'comment-edit-' + id
+        )
+        .classList
+        .toggle('hidden');
+}
 </script>
 
 </x-app-layout>

@@ -46,6 +46,12 @@ class LikeController extends Controller
             ]);
         }
 
-        return back();
+        return back()->with(
+
+            'success',
+
+            'Like successfully!'
+
+        );
     }
 }
