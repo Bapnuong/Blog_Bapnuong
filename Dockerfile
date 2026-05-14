@@ -42,4 +42,4 @@ RUN php artisan view:cache
 EXPOSE 10000
 
 # Start server
-CMD ["sh", "-c", "php artisan config:clear && php artisan optimize:clear && php artisan migrate --force && php artisan storage:link && php artisan serve --host=0.0.0.0 --port=$PORT"]
+CMD ["sh", "-c", "mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions storage/logs && php artisan config:clear && php artisan optimize:clear && php artisan migrate --force && php artisan storage:link && php artisan serve --host=0.0.0.0 --port=$PORT"]
