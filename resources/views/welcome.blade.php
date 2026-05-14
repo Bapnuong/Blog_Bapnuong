@@ -1,4 +1,16 @@
-<x-app-layout>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BapBlog</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body class="bg-gradient-to-br from-slate-100 via-orange-50 to-white">
+
+<div class="min-h-screen py-10">
 
 <div class="min-h-screen bg-gradient-to-br from-slate-100 via-orange-50 to-white py-10">
 
@@ -48,7 +60,7 @@
             </p>
 
             <div class="mt-8 flex justify-center gap-5">
-
+                @if(auth()->check())
                 <a
                     href="/dashboard"
                     class="
@@ -69,7 +81,7 @@
                     Explore Posts
 
                 </a>
-                @if(!auth()->check())
+                @else
                 <a
                     href="/login"
                     class="
@@ -86,6 +98,24 @@
                 >
 
                     Login
+
+                </a>
+                <a
+                    href="/register"
+                    class="
+                        bg-white
+                        text-gray-800
+                        px-8
+                        py-4
+                        rounded-2xl
+                        shadow-xl
+                        font-bold
+                        hover:scale-105
+                        transition
+                    "
+                >
+
+                    Register
 
                 </a>
                 @endif
@@ -216,4 +246,7 @@
 
 </div>
 
-</x-app-layout>
+</div>
+
+</body>
+</html>
