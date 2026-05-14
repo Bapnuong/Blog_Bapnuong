@@ -69,7 +69,7 @@
                     Explore Posts
 
                 </a>
-
+                @if(!auth()->check())
                 <a
                     href="/login"
                     class="
@@ -88,6 +88,7 @@
                     Login
 
                 </a>
+                @endif
 
             </div>
 
