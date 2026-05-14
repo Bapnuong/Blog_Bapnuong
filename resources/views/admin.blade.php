@@ -384,36 +384,39 @@
 
                             </span>
 
-                            <form
-                                action="/admin/users/{{ $user->id }}"
-                                method="POST"
-                            >
+                           @if(auth()->id() !== $user->id)
 
-                                @csrf
-                                @method('DELETE')
-
-                                <button
-                                    class="
-                                        bg-gradient-to-r
-                                        from-red-500
-                                        to-pink-500
-                                        text-white
-                                        px-5
-                                        py-3
-                                        rounded-2xl
-                                        shadow-lg
-                                        font-bold
-                                        hover:scale-105
-                                        transition
-                                    "
+                                <form
+                                    action="/admin/users/{{ $user->id }}"
+                                    method="POST"
                                 >
 
-                                    Delete
+                                    @csrf
+                                    @method('DELETE')
 
-                                </button>
+                                    <button
+                                        class="
+                                            bg-gradient-to-r
+                                            from-red-500
+                                            to-pink-500
+                                            text-white
+                                            px-5
+                                            py-3
+                                            rounded-2xl
+                                            shadow-lg
+                                            font-bold
+                                            hover:scale-105
+                                            transition
+                                        "
+                                    >
 
-                            </form>
+                                        Delete
 
+                                    </button>
+
+                                </form>
+
+                            @endif
                         </div>
                     </div>
 
