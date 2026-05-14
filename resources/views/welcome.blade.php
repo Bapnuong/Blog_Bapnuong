@@ -1,379 +1,218 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<x-app-layout>
+
+<div class="min-h-screen bg-gradient-to-br from-slate-100 via-orange-50 to-white py-10">
+
+    <div class="max-w-7xl mx-auto px-4">
+
+        {{-- HERO --}}
+
+        <div
+            class="
+                bg-white/80
+                backdrop-blur-xl
+                rounded-[35px]
+                shadow-2xl
+                p-10
+                mb-10
+                border border-white/50
+                text-center
+            "
+        >
+
+            <h1
+                class="
+                    text-6xl
+                    font-black
+                    text-gray-800
+                    mb-6
+                "
+            >
+
+                Welcome To BapBlog ✨
+
+            </h1>
+
+            <p
+                class="
+                    text-xl
+                    text-gray-500
+                    max-w-3xl
+                    mx-auto
+                    leading-relaxed
+                "
+            >
+
+                Share your stories, ideas, travel experiences,
+                technology thoughts, and connect with everyone.
+
+            </p>
+
+            <div class="mt-8 flex justify-center gap-5">
+
+                <a
+                    href="/dashboard"
+                    class="
+                        bg-gradient-to-r
+                        from-orange-500
+                        to-pink-500
+                        text-white
+                        px-8
+                        py-4
+                        rounded-2xl
+                        shadow-xl
+                        font-bold
+                        hover:scale-105
+                        transition
+                    "
+                >
+
+                    Explore Posts
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Blog.</title>
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-<style>
-
-body{
-
-    margin:0;
-    padding:0;
-
-    font-family:Arial, Helvetica, sans-serif;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f8fafc,
-            #fff7ed,
-            #ffffff
-        );
-
-    min-height:100vh;
-
-    overflow-x:hidden;
-}
-
-.navbar{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:25px 80px;
-
-    background:rgba(255,255,255,.75);
-
-    backdrop-filter:blur(20px);
-
-    border-bottom:1px solid rgba(255,255,255,.4);
-
-    position:sticky;
-    top:0;
-
-    z-index:1000;
-}
-
-.logo{
-
-    font-size:38px;
-
-    font-weight:900;
-
-    color:#f97316;
-}
-
-.nav-buttons{
-
-    display:flex;
-    gap:15px;
-}
-
-.btn{
-
-    padding:14px 28px;
-
-    border-radius:18px;
-
-    text-decoration:none;
-
-    font-weight:bold;
-
-    transition:.35s;
-}
-
-.login-btn{
-
-    background:white;
-
-    color:#2563eb;
-
-    border:1px solid #dbeafe;
-}
-
-.login-btn:hover{
-
-    background:#2563eb;
-
-    color:white;
-
-    transform:translateY(-3px);
-}
-
-.register-btn{
-
-    background:
-        linear-gradient(
-            135deg,
-            #f97316,
-            #ec4899
-        );
-
-    color:white;
-
-    box-shadow:
-        0 15px 40px rgba(249,115,22,.25);
-}
-
-.register-btn:hover{
-
-    transform:translateY(-4px);
-}
-
-.hero{
-
-    min-height:90vh;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    text-align:center;
-
-    padding:40px;
-
-    position:relative;
-}
-
-.hero-content{
-
-    max-width:900px;
-
-    z-index:2;
-}
-
-.hero h1{
-
-    font-size:88px;
-
-    line-height:1.1;
-
-    margin-bottom:25px;
-
-    font-weight:900;
-
-    background:
-        linear-gradient(
-            to right,
-            #0f172a,
-            #f97316
-        );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-
-    animation:float 4s ease-in-out infinite;
-}
-
-.hero p{
-
-    font-size:24px;
-
-    color:#64748b;
-
-    line-height:1.8;
-
-    margin-bottom:45px;
-}
-
-.hero-buttons{
-
-    display:flex;
-    justify-content:center;
-
-    gap:20px;
-
-    flex-wrap:wrap;
-}
-
-.start-btn{
-
-    background:
-        linear-gradient(
-            135deg,
-            #f97316,
-            #ec4899
-        );
-
-    color:white;
-
-    padding:18px 36px;
-
-    border-radius:20px;
-
-    text-decoration:none;
-
-    font-size:18px;
-
-    font-weight:bold;
-
-    box-shadow:
-        0 15px 40px rgba(249,115,22,.25);
-
-    transition:.35s;
-}
-
-.start-btn:hover{
-
-    transform:translateY(-5px);
-}
-
-.learn-btn{
-
-    background:white;
-
-    color:#2563eb;
-
-    border:1px solid #dbeafe;
-
-    padding:18px 36px;
-
-    border-radius:20px;
-
-    text-decoration:none;
-
-    font-size:18px;
-
-    font-weight:bold;
-
-    transition:.35s;
-}
-
-.learn-btn:hover{
-
-    background:#2563eb;
-
-    color:white;
-
-    transform:translateY(-5px);
-}
-
-.circle{
-
-    position:absolute;
-
-    border-radius:50%;
-
-    filter:blur(90px);
-
-    opacity:.35;
-}
-
-.circle1{
-
-    width:320px;
-    height:320px;
-
-    background:#fb923c;
-
-    top:-100px;
-    left:-100px;
-}
-
-.circle2{
-
-    width:350px;
-    height:350px;
-
-    background:#60a5fa;
-
-    bottom:-120px;
-    right:-100px;
-}
-
-@keyframes float {
-
-    0%{
-        transform:translateY(0px);
-    }
-
-    50%{
-        transform:translateY(-12px);
-    }
-
-    100%{
-        transform:translateY(0px);
-    }
-}
-
-@media(max-width:768px){
-
-    .navbar{
-        padding:20px;
-    }
-
-    .hero h1{
-        font-size:54px;
-    }
-
-    .hero p{
-        font-size:18px;
-    }
-
-    .hero-buttons{
-        flex-direction:column;
-    }
-
-    .start-btn,
-    .learn-btn{
-        width:100%;
-    }
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="circle circle1"></div>
-<div class="circle circle2"></div>
-
-<nav class="navbar">
-
-    <div class="logo">
-        BLOG.
-    </div>
-
-</nav>
-
-<section class="hero">
-
-    <div class="hero-content">
-
-        <h1>
-            Share Your Ideas
-            With The World
-        </h1>
-
-        <p>
-
-            Create posts, connect with people,
-            share your thoughts and ideas, and be part of a vibrant community of bloggers.
-
-        </p>
-
-        <div class="hero-buttons">
-             @auth
-
-                <a href="/dashboard" class="btn register-btn">
-                    Dashboard
                 </a>
 
-            @else
-            <a href="{{ route('register') }}" class="start-btn">
-                Get Started
-            </a>
+                <a
+                    href="/login"
+                    class="
+                        bg-white
+                        text-gray-800
+                        px-8
+                        py-4
+                        rounded-2xl
+                        shadow-xl
+                        font-bold
+                        hover:scale-105
+                        transition
+                    "
+                >
 
-            <a href="{{ route('login') }}" class="learn-btn">
-                Login
-            </a>
-            @endauth
+                    Login
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {{-- POSTS --}}
+
+        <div class="space-y-8">
+
+            @foreach($posts as $post)
+
+                <div
+                    class="
+                        bg-white/80
+                        backdrop-blur-xl
+                        rounded-[35px]
+                        shadow-2xl
+                        p-8
+                        border border-white/50
+                    "
+                >
+
+                    {{-- HEADER --}}
+
+                    <div
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            mb-6
+                        "
+                    >
+
+                        @if($post->user->avatar)
+
+                            <img
+                                src="{{ asset('storage/' . $post->user->avatar) }}"
+                                class="
+                                    w-16
+                                    h-16
+                                    rounded-full
+                                    object-cover
+                                    border-2
+                                    border-orange-400
+                                "
+                            >
+
+                        @else
+
+                            <img
+                                src="https://ui-avatars.com/api/?name={{ $post->user->name }}"
+                                class="
+                                    w-16
+                                    h-16
+                                    rounded-full
+                                    border-2
+                                    border-orange-400
+                                "
+                            >
+
+                        @endif
+
+                        <div>
+
+                            <h2
+                                class="
+                                    text-3xl
+                                    font-black
+                                    text-gray-800
+                                "
+                            >
+
+                                {{ $post->title }}
+
+                            </h2>
+
+                            <p class="text-gray-500 mt-1">
+
+                                By {{ $post->user->name }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    {{-- IMAGE --}}
+
+                    @if($post->image)
+
+                        <img
+                            src="{{ asset('storage/' . $post->image) }}"
+                            class="
+                                w-full
+                                rounded-3xl
+                                mb-6
+                                max-h-[500px]
+                                object-cover
+                            "
+                        >
+
+                    @endif
+
+                    {{-- CONTENT --}}
+
+                    <p
+                        class="
+                            text-gray-700
+                            text-lg
+                            leading-relaxed
+                        "
+                    >
+
+                        {{ Str::limit($post->content, 300) }}
+
+                    </p>
+
+                </div>
+
+            @endforeach
 
         </div>
 
     </div>
 
-</section>
+</div>
 
-</body>
-</html>
+</x-app-layout>

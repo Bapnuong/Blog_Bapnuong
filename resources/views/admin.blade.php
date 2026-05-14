@@ -94,7 +94,6 @@
                     {{ $totalUsers }}
 
                 </h1>
-
             </div>
 
             {{-- POSTS --}}
@@ -368,21 +367,54 @@
 
                         {{-- ROLE --}}
 
-                        <span
-                            class="
-                                bg-orange-100
-                                text-orange-500
-                                px-5
-                                py-3
-                                rounded-2xl
-                                font-bold
-                            "
-                        >
+                        <div class="flex items-center gap-4">
 
-                            {{ $user->role }}
+                            <span
+                                class="
+                                    bg-orange-100
+                                    text-orange-500
+                                    px-5
+                                    py-3
+                                    rounded-2xl
+                                    font-bold
+                                "
+                            >
 
-                        </span>
+                                {{ $user->role }}
 
+                            </span>
+
+                            <form
+                                action="/admin/users/{{ $user->id }}"
+                                method="POST"
+                            >
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    class="
+                                        bg-gradient-to-r
+                                        from-red-500
+                                        to-pink-500
+                                        text-white
+                                        px-5
+                                        py-3
+                                        rounded-2xl
+                                        shadow-lg
+                                        font-bold
+                                        hover:scale-105
+                                        transition
+                                    "
+                                >
+
+                                    Delete
+
+                                </button>
+
+                            </form>
+
+                        </div>
                     </div>
 
                 @endforeach

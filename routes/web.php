@@ -6,10 +6,16 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Models\Post;
+
 
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $posts = Post::latest()->get();
+
+    return view('welcome', compact('posts'));
+
 });
 
 
