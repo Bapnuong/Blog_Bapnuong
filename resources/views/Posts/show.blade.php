@@ -1,9 +1,12 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $post->title }} - BapBlog</title>
+    <title>{{ $post->title }} - Blog</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
