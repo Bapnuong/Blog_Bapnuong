@@ -89,6 +89,10 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('/posts/{post}', function (Post $post) {
+    return view('Posts.show', compact('post'));
+});
+
 Route::post(
     '/profile/avatar',
     [ProfileController::class, 'avatar']
