@@ -12,7 +12,7 @@ use App\Models\Post;
 
 Route::get('/', function () {
 
-    $posts = Post::latest()->get();
+    $posts = Post::latest()->paginate(6);
 
     return view('welcome', compact('posts'));
 
