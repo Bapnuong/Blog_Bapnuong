@@ -1,18 +1,27 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>BapBlog</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-gradient-to-br from-slate-100 via-orange-50 to-white">
+<body class="bg-gradient-to-br from-slate-100 via-orange-50 to-white scroll-smooth">
 
-<div class="min-h-screen py-10">
+<div class="min-h-screen py-6 md:py-10">
 
-    <div class="max-w-5xl mx-auto px-4">
+    <div class="max-w-5xl mx-auto px-3 sm:px-4">
 
         {{-- HERO SECTION --}}
 
@@ -20,10 +29,11 @@
             class="
                 bg-white/80
                 backdrop-blur-xl
-                rounded-[35px]
+                rounded-[30px]
+                md:rounded-[35px]
                 shadow-2xl
-                p-10
-                mb-10
+                p-5 md:p-10
+                mb-8 md:mb-10
                 border border-white/50
                 text-center
             "
@@ -31,11 +41,13 @@
 
             <h1
                 class="
-                    text-5xl
+                    text-3xl
+                    sm:text-4xl
                     md:text-6xl
                     font-black
                     text-gray-800
-                    mb-6
+                    mb-4 md:mb-6
+                    leading-tight
                 "
             >
                 Welcome To BapBlog ✨
@@ -43,7 +55,8 @@
 
             <p
                 class="
-                    text-lg
+                    text-base
+                    sm:text-lg
                     md:text-xl
                     text-gray-500
                     max-w-3xl
@@ -55,7 +68,15 @@
                 technology thoughts, and connect with everyone.
             </p>
 
-            <div class="mt-8 flex justify-center gap-5 flex-wrap">
+            <div
+                class="
+                    mt-6 md:mt-8
+                    flex
+                    justify-center
+                    gap-3 md:gap-5
+                    flex-wrap
+                "
+            >
 
                 @if(auth()->check())
 
@@ -66,13 +87,14 @@
                             from-orange-500
                             to-pink-500
                             text-white
-                            px-8
-                            py-4
+                            px-5 py-3
+                            md:px-8 md:py-4
                             rounded-2xl
                             shadow-xl
                             font-bold
                             hover:scale-105
                             transition
+                            text-sm md:text-base
                         "
                     >
                         Dashboard
@@ -85,13 +107,14 @@
                         class="
                             bg-white
                             text-gray-800
-                            px-8
-                            py-4
+                            px-5 py-3
+                            md:px-8 md:py-4
                             rounded-2xl
                             shadow-xl
                             font-bold
                             hover:scale-105
                             transition
+                            text-sm md:text-base
                         "
                     >
                         Login
@@ -104,13 +127,14 @@
                             from-orange-500
                             to-pink-500
                             text-white
-                            px-8
-                            py-4
+                            px-5 py-3
+                            md:px-8 md:py-4
                             rounded-2xl
                             shadow-xl
                             font-bold
                             hover:scale-105
                             transition
+                            text-sm md:text-base
                         "
                     >
                         Register
@@ -124,19 +148,23 @@
 
         {{-- POSTS FEED --}}
 
-        <div class="space-y-8">
+        <div class="space-y-6 md:space-y-8">
 
             @foreach($posts as $post)
 
-                <a href="/posts/{{ $post->id }}" class="block">
+                <a
+                    href="/posts/{{ $post->id }}"
+                    class="block"
+                >
 
                     <div
                         class="
                             bg-white/80
                             backdrop-blur-xl
-                            rounded-[35px]
+                            rounded-[30px]
+                            md:rounded-[35px]
                             shadow-xl
-                            p-8
+                            p-5 md:p-8
                             border border-white/50
 
                             hover:-translate-y-1
@@ -149,15 +177,25 @@
 
                         {{-- HEADER --}}
 
-                        <div class="flex items-center gap-4 mb-6">
+                        <div
+                            class="
+                                flex
+                                flex-col
+                                sm:flex-row
+                                sm:items-center
+                                gap-4
+                                mb-5 md:mb-6
+                            "
+                        >
 
-                            @if($post->user->avatar)
+                            @if($post->user && $post->user->avatar)
 
                                 <img
                                     src="{{ asset('storage/' . $post->user->avatar) }}"
+                                    loading="lazy"
                                     class="
-                                        w-16
-                                        h-16
+                                        w-14 h-14
+                                        md:w-16 md:h-16
                                         rounded-full
                                         object-cover
                                         border-2
@@ -168,10 +206,11 @@
                             @else
 
                                 <img
-                                    src="https://ui-avatars.com/api/?name={{ $post->user->name }}"
+                                    src="https://ui-avatars.com/api/?name={{ $post->user->name ?? 'Unknown' }}"
+                                    loading="lazy"
                                     class="
-                                        w-16
-                                        h-16
+                                        w-14 h-14
+                                        md:w-16 md:h-16
                                         rounded-full
                                         border-2
                                         border-orange-400
@@ -180,28 +219,48 @@
 
                             @endif
 
-                            <div>
+                            <div class="w-full">
 
                                 <h2
                                     class="
-                                        text-2xl
+                                        text-xl
+                                        sm:text-2xl
                                         md:text-3xl
                                         font-black
                                         text-gray-800
+                                        leading-tight
                                     "
                                 >
                                     {{ $post->title }}
                                 </h2>
 
-                                <div class="flex items-center gap-2 mt-1">
+                                <div
+                                    class="
+                                        flex
+                                        flex-wrap
+                                        items-center
+                                        gap-2
+                                        mt-2
+                                    "
+                                >
 
-                                    <p class="text-gray-500 text-sm">
-                                        By {{ $post->user->name }}
+                                    <p
+                                        class="
+                                            text-gray-500
+                                            text-xs sm:text-sm
+                                        "
+                                    >
+                                        By {{ $post->user->name ?? 'Unknown' }}
                                     </p>
 
                                     <span class="text-gray-300">•</span>
 
-                                    <p class="text-gray-400 text-sm">
+                                    <p
+                                        class="
+                                            text-gray-400
+                                            text-xs sm:text-sm
+                                        "
+                                    >
                                         {{ $post->created_at->diffForHumans() }}
                                     </p>
 
@@ -221,8 +280,9 @@
                                 class="
                                     w-full
                                     rounded-3xl
-                                    mb-6
-                                    max-h-[300px]
+                                    mb-5 md:mb-6
+                                    max-h-[220px]
+                                    sm:max-h-[320px]
                                     md:max-h-[500px]
                                     object-cover
                                 "
@@ -234,10 +294,11 @@
 
                         <p
                             class="
+                                line-clamp-3
                                 text-gray-700
-                                text-lg
+                                text-base md:text-lg
                                 leading-relaxed
-                                mb-6
+                                mb-5 md:mb-6
                             "
                         >
                             {{ \Illuminate\Support\Str::limit($post->content, 180) }}
@@ -245,17 +306,24 @@
 
                         {{-- STATS --}}
 
-                        <div class="flex items-center gap-6">
+                        <div
+                            class="
+                                flex
+                                flex-wrap
+                                items-center
+                                gap-3
+                            "
+                        >
 
                             <div
                                 class="
                                     bg-pink-100
                                     text-pink-500
-                                    px-4
-                                    py-2
+                                    px-3 py-2
+                                    md:px-4
                                     rounded-xl
                                     font-semibold
-                                    text-sm
+                                    text-xs sm:text-sm
                                 "
                             >
                                 ❤️ {{ $post->likes_count }} Likes
@@ -265,11 +333,11 @@
                                 class="
                                     bg-blue-100
                                     text-blue-500
-                                    px-4
-                                    py-2
+                                    px-3 py-2
+                                    md:px-4
                                     rounded-xl
                                     font-semibold
-                                    text-sm
+                                    text-xs sm:text-sm
                                 "
                             >
                                 💬 {{ $post->comments_count }} Comments
