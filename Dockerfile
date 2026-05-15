@@ -8,12 +8,21 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
     zip \
     nodejs \
     npm
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install \
+    pdo \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -33,13 +42,26 @@ RUN npm install
 # Build Vite assets
 RUN npm run build
 
-# Laravel optimize
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+# Create Laravel storage folders
+RUN mkdir -p storage/framework/views \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/logs
 
-# Expose port
+# Laravel optimize
+RUN php artisan optimize:clear
+RUN php artisan optimize
+
+# Expose Render port
 EXPOSE 10000
 
-# Start server
-CMD ["sh", "-c", "mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions storage/logs && php artisan config:clear && php artisan optimize:clear && php artisan migrate --force && php artisan storage:link && php artisan serve --host=0.0.0.0 --port=$PORT"]
+# Start Laravel server
+CMD ["sh", "-c", "\
+php artisan config:clear && \
+php artisan cache:clear && \
+php artisan view:clear && \
+php artisan route:clear && \
+php artisan storage:link || true && \
+php artisan migrate --force && \
+php artisan serve --host=0.0.0.0 --port=$PORT \
+"]
