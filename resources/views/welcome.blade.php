@@ -217,11 +217,13 @@
 
                             <img
                                 src="{{ asset('storage/' . $post->image) }}"
+                                loading="lazy"
                                 class="
                                     w-full
                                     rounded-3xl
                                     mb-6
-                                    max-h-[500px]
+                                    max-h-[300px]
+                                    md:max-h-[500px]
                                     object-cover
                                 "
                             >
@@ -238,7 +240,7 @@
                                 mb-6
                             "
                         >
-                            {{ Str::limit($post->content, 180) }}
+                            {{ \Illuminate\Support\Str::limit($post->content, 180) }}
                         </p>
 
                         {{-- STATS --}}
@@ -256,7 +258,7 @@
                                     text-sm
                                 "
                             >
-                                ❤️ {{ $post->likes->count() }} Likes
+                                ❤️ {{ $post->likes_count }} Likes
                             </div>
 
                             <div
@@ -270,7 +272,7 @@
                                     text-sm
                                 "
                             >
-                                💬 {{ $post->comments->count() }} Comments
+                                💬 {{ $post->comments_count }} Comments
                             </div>
 
                         </div>

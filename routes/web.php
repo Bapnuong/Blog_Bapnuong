@@ -12,7 +12,10 @@ use App\Models\Post;
 
 Route::get('/', function () {
 
-    $posts = Post::latest()->paginate(6);
+    $posts = Post::with('user')
+    ->withCount(['likes', 'comments'])
+    ->latest()
+    ->paginate(10);
 
     return view('welcome', compact('posts'));
 
