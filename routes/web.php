@@ -1,105 +1,45 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\LikeController;
 use App\Models\Post;
 
-
+/*
+|--------------------------------------------------------------------------
+| Main Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
 
     $posts = Post::with('user')
-    ->withCount(['likes', 'comments'])
-    ->latest()
-    ->paginate(10);
+        ->withCount([
+            'likes',
+            'comments'
+        ])
+        ->latest()
+        ->paginate(10);
 
-    return view('welcome', compact('posts'));
-
-});
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::get(
-    '/profile/{id}',
-    [ProfileController::class, 'show']
-);
-
-Route::middleware([
-    'auth',
-    'admin'
-])->group(function () {
-
-    Route::get(
-        '/admin',
-        [AdminController::class, 'index']
-    )->name('admin.index');
-
-});
-
-Route::middleware('auth')->group(function () {
-
-    Route::get(
-        '/dashboard',
-        [PostController::class, 'index']
-    )->name('dashboard');
-
-    Route::post(
-        '/posts',
-        [PostController::class, 'store']
-    );
-
-    Route::put(
-        '/posts/{id}',
-        [PostController::class, 'update']
-    );
-
-    Route::delete(
-        '/posts/{id}',
-        [PostController::class, 'destroy']
-    );
-
-    Route::post(
-        '/comments',
-        [CommentController::class, 'store']
-    );
-    Route::delete(
-
-        '/comments/{id}',
-
-        [CommentController::class, 'destroy']
-
-    );
-    Route::post(
-        '/posts/{id}/like',
-        [LikeController::class, 'toggle']
-    );
-    Route::put(
-
-        '/comments/{id}',
-
-        [CommentController::class, 'update']
-
+    return view(
+        'welcome',
+        compact('posts')
     );
 });
-
 
 Route::get('/posts/{post}', function (Post $post) {
-    return view('Posts.show', compact('post'));
+
+    return view(
+        'Posts.show',
+        compact('post')
+    );
 });
 
-Route::post(
-    '/profile/avatar',
-    [ProfileController::class, 'avatar']
-)->middleware('auth');
-
+/*
+|--------------------------------------------------------------------------
+| Route Groups
+|--------------------------------------------------------------------------
+*/
 
 require __DIR__.'/auth.php';
+require __DIR__.'/post.php';
+require __DIR__.'/admin.php';
+require __DIR__.'/profile.php';
