@@ -37,4 +37,26 @@ class AdminController extends Controller
             )
         );
     }
+
+    public function destroyUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        // không cho xoá chính mình 😎
+
+        if(auth()->id() == $user->id)
+        {
+            return back()->with(
+                'error',
+                'You cannot delete yourself!'
+            );
+        }
+
+        $user->delete();
+
+        return back()->with(
+            'success',
+            'User deleted successfully!'
+        );
+    }
 }
