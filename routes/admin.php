@@ -13,10 +13,10 @@ Route::middleware([
         [AdminController::class, 'index']
     )->name('admin.index');
 
-});
 
-
-Route::delete(
+    Route::delete(
     '/admin/users/{id}',
     [AdminController::class, 'destroyUser']
-);
+    );
+
+});
