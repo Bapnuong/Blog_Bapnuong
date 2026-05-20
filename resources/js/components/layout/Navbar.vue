@@ -19,7 +19,19 @@ const csrf = document
 
 <template>
 
-    <nav class="bg-white shadow-md border-b border-gray-100">
+        <nav
+            class="
+                bg-white/90
+                backdrop-blur-xl
+                shadow-md
+                border-b
+                border-white/40
+
+                sticky
+                top-0
+                z-50
+            "
+        >
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -178,18 +190,32 @@ const csrf = document
 
         <!-- MOBILE MENU -->
 
-        <div
-            v-if="mobileMenu"
-            class="
-                md:hidden
-                border-t
-                border-gray-100
-                bg-white
-                px-4
-                py-5
-                space-y-4
-            "
-        >
+        <!-- MOBILE MENU -->
+
+            <div
+                v-if="mobileMenu"
+                class="
+                    absolute
+                    top-16
+                    left-0
+                    w-full
+
+                    md:hidden
+
+                    border-t
+                    border-gray-100
+
+                    bg-white
+
+                    px-4
+                    py-5
+
+                    space-y-4
+
+                    shadow-xl
+                    z-50
+                "
+            >
 
             <div>
 
