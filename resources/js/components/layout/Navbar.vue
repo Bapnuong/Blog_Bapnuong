@@ -269,9 +269,36 @@ const csrf = document
             >
                 Admin
             </a>
+            <form
+                        method="POST"
+                        action="/logout"
+                    >
 
+                        <input
+                            type="hidden"
+                            name="_token"
+                            :value="csrf"
+                        >
+
+                        <button
+                            type="submit"
+                            class="
+                                bg-red-500
+                                hover:bg-red-600
+                                text-white
+                                px-6
+                                py-3
+                                rounded-2xl
+                                font-semibold
+                                shadow
+                                transition
+                            "
+                        >
+                            Logout
+                        </button>
+
+                    </form>
         </div>
-
     </nav>
 
 </template>
