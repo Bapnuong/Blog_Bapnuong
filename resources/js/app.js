@@ -3,7 +3,7 @@ import './bootstrap'
 import { createApp } from 'vue'
 
 import Navbar from './components/layout/Navbar.vue'
-import PostCard from './components/post/PostCard.vue'
+import PostCard from './components/post/Postcard.vue'
 
 /*
 |--------------------------------------------------------------------------
