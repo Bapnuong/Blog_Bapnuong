@@ -1,7 +1,42 @@
-import './bootstrap';
+import './bootstrap'
 
-import Alpine from 'alpinejs';
+import { createApp } from 'vue'
 
-window.Alpine = Alpine;
+import Navbar from './components/layout/Navbar.vue'
+import PostCard from './components/post/PostCard.vue'
 
-Alpine.start();
+/*
+|--------------------------------------------------------------------------
+| NAVBAR
+|--------------------------------------------------------------------------
+*/
+
+if (document.getElementById('navbar-app'))
+{
+    const navbarApp = createApp({})
+
+    navbarApp.component(
+        'navbar-component',
+        Navbar
+    )
+
+    navbarApp.mount('#navbar-app')
+}
+
+/*
+|--------------------------------------------------------------------------
+| POST CARD
+|--------------------------------------------------------------------------
+*/
+
+if (document.getElementById('post-card-app'))
+{
+    const postCardApp = createApp({})
+
+    postCardApp.component(
+        'post-card',
+        PostCard
+    )
+
+    postCardApp.mount('#post-card-app')
+}

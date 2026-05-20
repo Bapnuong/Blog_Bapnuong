@@ -211,4 +211,24 @@ class PostController extends Controller
             'Post deleted!'
         );
     }
+
+
+    public function show($id)
+    {
+        $post = Post::with([
+
+            'user',
+            'comments.user',
+            'likes'
+
+        ])->findOrFail($id);
+
+        return view(
+
+            'Posts.show',
+
+            compact('post')
+
+        );
+    }
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
-
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | Main Routes
@@ -25,14 +25,13 @@ Route::get('/', function () {
     );
 });
 
-Route::get('/posts/{post}', function (Post $post) {
+Route::get(
 
-    return view(
-        'Posts.show',
-        compact('post')
-    );
-});
+    '/posts/{id}',
 
+    [PostController::class, 'show']
+
+);
 /*
 |--------------------------------------------------------------------------
 | Route Groups
