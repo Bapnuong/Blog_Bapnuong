@@ -52,8 +52,12 @@ RUN mkdir -p storage/framework/views \
 RUN php artisan optimize:clear
 RUN php artisan optimize
 
+RUN echo "upload_max_filesize=64M" >> /usr/local/etc/php/conf.d/uploads.ini
+RUN echo "post_max_size=64M" >> /usr/local/etc/php/conf.d/uploads.ini
+
 # Expose Render port
 EXPOSE 10000
+
 
 # Start Laravel server
 CMD ["sh", "-c", "\

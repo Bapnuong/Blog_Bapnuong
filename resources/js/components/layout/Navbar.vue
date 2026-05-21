@@ -192,7 +192,7 @@ const csrf = document
 
         <!-- MOBILE MENU -->
 
-                        <div
+            <div
                 v-if="mobileMenu"
                 class="
                     absolute

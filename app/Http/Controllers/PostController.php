@@ -75,7 +75,7 @@ class PostController extends Controller
 
             'content' => 'required',
 
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10240'
 
         ]);
 
@@ -137,7 +137,7 @@ class PostController extends Controller
 
             'content' => 'required',
 
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:10240'
 
         ]);
 
